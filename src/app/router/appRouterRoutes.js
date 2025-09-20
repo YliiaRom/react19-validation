@@ -1,11 +1,12 @@
 import { frontRoutes } from "@/shared/api/config/routes/frontRoutes.js";
 import { Component } from "react";
 
-const pages = import.meta.glob("../../pages/*.jsx");
+const pages = import.meta.globEager("../../pages/*.jsx");
+
 export const appRouterRoutes = Object.keys(frontRoutes.pages).map((page) => ({
   ...frontRoutes.pages[page],
   lazy: async () => {
-    const module = await pages[`../../pages/${page}.jsx`]();
+    const module = pages[`../../pages/${page}.jsx`];
     return { Component: module.default };
   },
 }));
